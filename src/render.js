@@ -199,7 +199,7 @@ function createTspan(text, tmpStrF, lineHeight) {
 }
 
 function textFits(text) {
-  let textWidth = text.getBoundingClientRect().width;
+  let textWidth = text.getBBox().width
   textWidth -= textWidth * GECKO_DAMPER;
   return textWidth <= maxWidth;
 }
