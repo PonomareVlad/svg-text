@@ -85,7 +85,7 @@ export default function render(text, options, lineHeight) {
     const tspan = createTspan(text, tmpStrF, lineHeight);
 
     let complete = false;
-    if (textFits(text)) {
+    if (textFits(text) && c !== '\n') {
       // Text with the test character fits, so now just exit if there are no
       // more characters to write.
       lineStr = tmpStr;
@@ -121,7 +121,7 @@ export default function render(text, options, lineHeight) {
         }
         if (isFinalLine) {
           lineStr = lineStr.replace(/^\s+$/, '');
-        } else {
+        } else if(c !== '\n') {
           --index;
         }
       }
