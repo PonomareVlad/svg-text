@@ -12,6 +12,7 @@ const GECKO_DAMPER = IS_GECKO ? ((282.25 - 278.234375) / 280.25) : 0;
 let maxLines;
 let maxWidth;
 let maxHeight;
+let minLineHeight;
 
 let chars;
 let tags;
@@ -40,14 +41,15 @@ let charsRemain;
  * @param {object} options
  * @param {number} lineHeight
  */
-export default function render(text, options, lineHeight) {
+export default function render(text, options, lineHeight, fontSize) {
   maxLines = autoNum(options.maxLines, Number.MAX_VALUE);
   if (maxLines < 1) {
     return 0;
   }
   maxWidth = autoNum(bestSize(options.textPos, 'width'), Number.MAX_VALUE);
   maxHeight = autoNum(bestSize(options.textPos, 'height'), Number.MAX_VALUE);
-  if (maxHeight < lineHeight) {
+  minLineHeight = typeof fontSize === 'undefined' ? lineHeight : fontSize * 1.1;
+  if (maxHeight < minLineHeight) {
     return 0;
   }
 
@@ -77,7 +79,7 @@ export default function render(text, options, lineHeight) {
   while (index < chars.length) {
     const c = chars[index];
     charIndex = index;
-    isFinalLine = tspanIndex + 1 === maxLines || height + lineHeight > maxHeight;
+    isFinalLine = tspanIndex + 1 === maxLines || height + minLineHeight > maxHeight;
     charsRemain = !/^\s*$/.test(chars.slice(index).join(''));
 
     tmpStr = writeTmpStr(c);
