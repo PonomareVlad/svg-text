@@ -75,7 +75,6 @@ export default function render(text, options, lineHeight, fontSize) {
   let lineStr = '';
   let index = 0;
 
-  // chars.some((c, index) => {
   while (index < chars.length) {
     const c = chars[index];
     charIndex = index;
@@ -87,17 +86,31 @@ export default function render(text, options, lineHeight, fontSize) {
     const tspan = createTspan(text, tmpStrF, lineHeight);
 
     let complete = false;
-    if (textFits(text) && c !== '\n') {
+
+    var theTextFits = textFits(text)
+
+    if (theTextFits) {
       // Text with the test character fits, so now just exit if there are no
       // more characters to write.
       lineStr = tmpStr;
+
       if (!charsRemain) {
         complete = true;
-      } else if (isWordBound(c)) {
+      } else if (isWordBound(c)) { 
         workingLineStr = tmpStrF;
       }
-    } else {
-      // Text with the test character is too wide!
+    }
+
+    if(!theTextFits || c === '\n') {
+      // Text with the test character is too wide or it's a newline
+      // Either way => a new line is needed
+
+      // If a newline, mark it as a word boundary
+      // If not a newline, we'll split at the last word boundary
+      if(c === '\n') { 
+        lastBoundIndex = index
+      }
+
       if (charsRemain) {
         tmpStr = '';
         for (let i = 0; i < openTags.length; i++) {
@@ -106,11 +119,9 @@ export default function render(text, options, lineHeight, fontSize) {
         if (lastBoundIndex > lineCharIndex) {
           if (isHyphen(chars[lastBoundIndex])) {
             // Push the hyphen onto the last word.
-            // lineStr = chars.slice(lineCharIndex, lastBoundIndex + 1).join('');
             lineCharIndex = lastBoundIndex + 1;
           } else {
             // Otherwise start the next line with the word bound character.
-            // lineStr = chars.slice(lineCharIndex, lastBoundIndex).join('');
             lineCharIndex = lastBoundIndex;
           }
           tmpStr += chars.slice(lineCharIndex, index).join('')
@@ -119,30 +130,34 @@ export default function render(text, options, lineHeight, fontSize) {
         } else {
           // Split the word at the character level instead of a word boundary.
           lineCharIndex = index;
-          // tmpStr += c;
         }
         if (isFinalLine) {
           lineStr = lineStr.replace(/^\s+$/, '');
         } else if(c !== '\n') {
+          // rewind so we start the next line with the current character
           --index;
         }
       }
 
       lineStr = lineStr.replace(/^\s+|\s+$/g, '');
       writeInnerHTML(tspan, lineStr);
+
       // Remove temporarily to prevent the width from getting whacky:
       text.removeChild(tspan);
+      
       if (isFinalLine || !lineStr) {
+      
         complete = true;
       }
+
       workingLineStr = '';
       ++tspanIndex;
     }
-    if (!complete && isWordBound(c)) {
+
+    if (!complete && (isWordBound(c))) {
       lastBoundIndex = index;
     }
-    // return complete;
-  // });
+
     if (complete) {
       break;
     }
