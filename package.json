@@ -1,16 +1,14 @@
 {
-  "name": "svg-text",
-  "version": "0.6.1",
+  "name": "@ponomarevlad/svg-text",
+  "version": "0.6.3",
   "description": "Utilities for working with SVG, including SvgText for multiline text.",
-  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "main": "./dist/svg-text.js",
   "scripts": {
     "test": "jest",
+    "build": "webpack",
     "watch": "webpack --watch",
     "demo": "http-server -c-1 ./"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:botanicastudios/svg-text.git"
   },
   "keywords": [
     "svg",
@@ -38,8 +36,5 @@
   },
   "jest": {
     "testRegex": "(/spec/.*|\\.(test|spec))\\.(spec.js|js|json|jsx|node)$"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.com/"
   }
 }

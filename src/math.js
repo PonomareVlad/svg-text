@@ -1,6 +1,6 @@
 import { normalizeKeys } from './keys';
-import isFinite from 'lodash.isfinite';
-import merge from 'lodash.merge';
+import isFinite from 'lodash-es/isfinite';
+import merge from 'lodash-es/merge';
 
 /**
  * Tests if a value is a valid number and also >= 0.

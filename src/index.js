@@ -5,7 +5,7 @@ import * as keys from './keys';
 import * as text from './text';
 import * as style from './style';
 import render from './render';
-import assign from 'lodash.assign';
+import assign from 'lodash-es/assign';
 
 export const SvgUtil = assign({ createElement }, math, keys, text, style, { render });
 export default SvgText;

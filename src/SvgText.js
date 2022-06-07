@@ -9,8 +9,8 @@ import {
 import { normalizeKeys } from './keys';
 import { writeStyle } from './style';
 import render from './render';
-import isFinite from 'lodash.isfinite';
-import merge from 'lodash.merge';
+import isFinite from 'lodash-es/isfinite';
+import merge from 'lodash-es/merge';
 
 let _svgEl = null;
 let _styleEl = null;

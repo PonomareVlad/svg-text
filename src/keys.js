@@ -1,4 +1,4 @@
-import isFinite from 'lodash.isfinite';
+import isFinite from 'lodash-es/isfinite';
 
 /**
  * @param {string} prop - String in JavaScript-ready camel case.
@@ -32,7 +32,7 @@ export function normalizeKeys(object, style) {
       const normalizedKey = (style === 'js') ? toJs(key) : toCss(key);
       const value = addUnits(key, object[key]);
       normalizedObj[normalizedKey] = value;
-    });  
+    });
   }
   return normalizedObj;
 }
